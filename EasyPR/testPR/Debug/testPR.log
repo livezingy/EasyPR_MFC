@@ -1,0 +1,14 @@
+﻿生成启动时间为 2016/8/5 1:36:06。
+     1>项目“D:\freelancer\201607\EasyPR-master\testPR\testPR.vcxproj”在节点 2 上(Build 个目标)。
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\freelancer\201607\EasyPR-master\Debug\testPR.exe" /INCREMENTAL /NOLOGO /LIBPATH:"%OPENCV%\x64\vc12\lib" opencv_world300d.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"D:\freelancer\201607\EasyPR-master\Debug\testPR.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\freelancer\201607\EasyPR-master\Debug\testPR.lib" /MACHINE:X64 Debug\testPR.res
+         Debug\stdafx.obj
+         Debug\testPR.obj
+         Debug\testPRDlg.obj
+         "D:\freelancer\201607\EasyPR-master\_build\libeasypr.lib"
+     1>Debug\stdafx.obj : fatal error LNK1112: 模块计算机类型“X86”与目标计算机类型“x64”冲突
+     1>已完成生成项目“D:\freelancer\201607\EasyPR-master\testPR\testPR.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:00.27

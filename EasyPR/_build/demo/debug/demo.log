@@ -1,0 +1,17 @@
+﻿生成启动时间为 2016/7/31 23:13:14。
+     1>项目“D:\freelancer\201607\EasyPR-master\vcprojs\demo.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"D:\freelancer\201607\EasyPR-master\include" /I"D:\freelancer\201607\EasyPR-master\\" /I/include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /openmp /Fo"D:\freelancer\201607\EasyPR-master\_build\demo\debug\\" /Fd"D:\freelancer\201607\EasyPR-master\_build\demo\debug\vc120.pdb" /Gd /TP /wd4819 /analyze- /errorReport:prompt ..\test\main.cpp ..\thirdparty\xmlParser\xmlParser.cpp
+         xmlParser.cpp
+         main.cpp
+         正在生成代码...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\freelancer\201607\EasyPR-master\demo.exe" /INCREMENTAL /NOLOGO /LIBPATH:/x86/vc12/lib opencv_world300d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\freelancer\201607\EasyPR-master\demo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\freelancer\201607\EasyPR-master\demo.lib" /MACHINE:X86 "D:\freelancer\201607\EasyPR-master\_build\demo\debug\main.obj"
+         "D:\freelancer\201607\EasyPR-master\_build\demo\debug\xmlParser.obj"
+         "D:\freelancer\201607\EasyPR-master\_build\libeasypr.lib"
+     1>opencv_world300d.lib(opencv_world300d.dll) : fatal error LNK1112: 模块计算机类型“x64”与目标计算机类型“X86”冲突
+     1>已完成生成项目“D:\freelancer\201607\EasyPR-master\vcprojs\demo.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:04.72

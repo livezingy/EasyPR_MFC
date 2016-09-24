@@ -195,16 +195,19 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BatchTest.h" />
     <ClInclude Include="CvvImage.h" />
     <ClInclude Include="plate.hpp" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="result.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TestEasyPr.h" />
     <ClInclude Include="testPR.h" />
-    <ClInclude Include="testPRDlg.h" />
+    <ClInclude Include="SingleTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BatchTest.cpp" />
     <ClCompile Include="CvvImage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -212,8 +215,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestEasyPr.cpp" />
     <ClCompile Include="testPR.cpp" />
-    <ClCompile Include="testPRDlg.cpp" />
+    <ClCompile Include="SingleTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="testPR.rc" />

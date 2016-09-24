@@ -1,85 +1,9 @@
-﻿生成启动时间为 2016/8/30 22:18:33。
-     1>项目“F:\GITHUB\EasyPR\vcprojs\libeasypr.vcxproj”在节点 2 上(Build 个目标)。
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"%OPENCV%\include" /IF:\GITHUB\EasyPR\include /Zi /nologo /W3 /WX- /sdl /Od /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /wd4819 /errorReport:prompt ..\src\core\chars_identify.cpp ..\src\core\chars_recognise.cpp ..\src\core\chars_segment.cpp ..\src\core\core_func.cpp ..\src\core\feature.cpp ..\src\core\params.cpp ..\src\core\plate_detect.cpp ..\src\core\plate_judge.cpp ..\src\core\plate_locate.cpp ..\src\core\plate_recognize.cpp ..\src\preprocess\deface.cpp ..\src\preprocess\gdts.cpp ..\src\preprocess\mc_data.cpp ..\src\train\ann_train.cpp ..\src\train\svm_train.cpp ..\src\train\train.cpp ..\src\util\kv.cpp ..\src\util\program_options.cpp ..\src\util\util.cpp ..\thirdparty\LBP\helper.cpp ..\thirdparty\LBP\lbp.cpp ..\thirdparty\mser\mser2.cpp ..\thirdparty\textDetect\erfilter.cpp
-         erfilter.cpp
-         mser2.cpp
-         lbp.cpp
-         helper.cpp
-     1>..\thirdparty\LBP\helper.cpp(116): warning C4244: “参数”: 从“size_t”转换到“const double”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(165): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(190): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(217): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(221): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(222): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(226): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(228): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(229): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(231): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\thirdparty\LBP\helper.cpp(250): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-         util.cpp
-         program_options.cpp
-         kv.cpp
-         train.cpp
-         svm_train.cpp
-     1>..\src\train\svm_train.cpp(62): warning C4244: “初始化”: 从“unsigned __int64”转换到“double”，可能丢失数据
-         ann_train.cpp
-     1>..\src\train\ann_train.cpp(263): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-         mc_data.cpp
-         gdts.cpp
-         deface.cpp
-         plate_recognize.cpp
-         plate_locate.cpp
-         plate_judge.cpp
-     1>..\src\core\plate_judge.cpp(52): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\src\core\plate_judge.cpp(119): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\src\core\plate_judge.cpp(202): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-         plate_detect.cpp
-         params.cpp
-         feature.cpp
-         core_func.cpp
-     1>..\src\core\core_func.cpp(1383): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-         正在生成代码...
-         正在编译...
-         chars_segment.cpp
-     1>..\src\core\chars_segment.cpp(341): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\src\core\chars_segment.cpp(443): warning C4267: “=”: 从“size_t”转换到“int”，可能丢失数据
-         chars_recognise.cpp
-     1>..\src\core\chars_recognise.cpp(23): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\src\core\chars_recognise.cpp(73): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
-         chars_identify.cpp
-     1>..\src\core\chars_identify.cpp(102): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\src\core\chars_identify.cpp(107): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\src\core\chars_identify.cpp(162): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-     1>..\src\core\chars_identify.cpp(167): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
-         正在生成代码...
-       Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\Lib.exe /OUT:"F:\GITHUB\EasyPR\x64\Debug\libeasypr.lib" /NOLOGO /MACHINE:X64 x64\Debug\chars_identify.obj
-         x64\Debug\chars_recognise.obj
-         x64\Debug\chars_segment.obj
-         x64\Debug\core_func.obj
-         x64\Debug\feature.obj
-         x64\Debug\params.obj
-         x64\Debug\plate_detect.obj
-         x64\Debug\plate_judge.obj
-         x64\Debug\plate_locate.obj
-         x64\Debug\plate_recognize.obj
-         x64\Debug\deface.obj
-         x64\Debug\gdts.obj
-         x64\Debug\mc_data.obj
-         x64\Debug\ann_train.obj
-         x64\Debug\svm_train.obj
-         x64\Debug\train.obj
-         x64\Debug\kv.obj
-         x64\Debug\program_options.obj
-         x64\Debug\util.obj
-         x64\Debug\helper.obj
-         x64\Debug\lbp.obj
-         x64\Debug\mser2.obj
-         x64\Debug\erfilter.obj
-         libeasypr.vcxproj -> F:\GITHUB\EasyPR\x64\Debug\libeasypr.lib
-     1>已完成生成项目“F:\GITHUB\EasyPR\vcprojs\libeasypr.vcxproj”(Build 个目标)的操作。
+﻿生成启动时间为 2016/9/22 22:14:29。
+     1>项目“F:\GITHUB\EasyPR_MFC\EasyPR\vcprojs\libeasypr.vcxproj”在节点 2 上(Build 个目标)。
+     1>Lib:
+         libeasypr.vcxproj -> F:\GITHUB\EasyPR_MFC\EasyPR\x64\Debug\libeasypr.lib
+     1>已完成生成项目“F:\GITHUB\EasyPR_MFC\EasyPR\vcprojs\libeasypr.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:40.41
+已用时间 00:00:00.09

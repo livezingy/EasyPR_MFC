@@ -21,9 +21,6 @@
     <ClInclude Include="testPR.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="testPRDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -42,18 +39,33 @@
     <ClInclude Include="CvvImage.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TestEasyPr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchTest.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="testPR.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="testPRDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="CvvImage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TestEasyPr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchTest.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

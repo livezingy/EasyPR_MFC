@@ -14,4 +14,4 @@ EasyPR comes with the demo based on win32 console, the picture to be recognized 
 * The file name and recognise result, the time of plate detect, get plate color and char recognise could be show in a list.
 ![Batch Test interface](http://livezingy.qiniudn.com/201609/opencv/CMSER_Detect.png)
 
-welcome to visit http://www.livezingy.com for more information about EasyPR_MFC!
+welcome to visit http://livezingy.com/batchtest-of-easypr/ for more information about EasyPR_MFC!

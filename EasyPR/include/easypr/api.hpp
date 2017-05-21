@@ -15,13 +15,12 @@ namespace api {
 
 static bool plate_judge(const char* image, const char* model) {
   cv::Mat src = cv::imread(image);
-
   assert(!src.empty());
 
   int result;
-  PlateJudge::instance()->plateJudge(src, result);
+  result = PlateJudge::instance()->plateJudge(src);
 
-  return result == 1;
+  return result == 0;
 }
 
 static void plate_locate(const char* image, const bool life_mode = true) {
@@ -34,7 +33,6 @@ static void plate_locate(const char* image, const bool life_mode = true) {
   plate.setLifemode(life_mode);
 
   std::vector<cv::Mat> results;
-
   plate.plateLocate(src, results);
 }
 
@@ -43,15 +41,30 @@ static std::vector<std::string> plate_recognize(const char* image,
                                                 const char* model_ann,
                                                 const bool life_mode = true) {
   cv::Mat img = cv::imread(image);
-
   assert(!img.empty());
 
   CPlateRecognize pr;
-  pr.setLifemode(life_mode);
-  pr.setDebug(false);
+  pr.setResultShow(false);
+  pr.setLifemode(true);
+  pr.setMaxPlates(1);
+  pr.setDetectType(PR_DETECT_CMSER | PR_DETECT_COLOR);
 
   std::vector<std::string> results;
-  pr.plateRecognize(img, results);
+  std::vector<CPlate> plates;
+  pr.plateRecognize(img, plates, 0);
+
+  for (auto plate : plates) {
+    results.push_back(plate.getPlateStr());
+
+  }
+
+  if (plates.size() == 1) {
+    if (1) {
+      std::stringstream ss(std::stringstream::in | std::stringstream::out);
+      ss << "result.jpg";
+      imwrite(ss.str(), plates.at(0).getPlateMat());
+    }
+  }
 
   return std::move(results);
 }

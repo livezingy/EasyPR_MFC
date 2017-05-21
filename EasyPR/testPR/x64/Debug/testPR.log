@@ -1,7 +1,47 @@
-﻿生成启动时间为 2016/9/22 22:12:30。
+﻿生成启动时间为 2017/5/21 15:57:07。
      1>项目“F:\GITHUB\EasyPR_MFC\EasyPR\testPR\testPR.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"%OPENCV%\include" /IF:\GITHUB\EasyPR_MFC\EasyPR\include /Zi /nologo /W3 /WX- /sdl /Od /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt BatchTest.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"%OPENCV%\include" /IF:\GITHUB\EasyPR_MFC\EasyPR\include /Zi /nologo /W3 /WX- /sdl /Od /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"x64\Debug\testPR.pch" /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I"%OPENCV%\include" /IF:\GITHUB\EasyPR_MFC\EasyPR\include /Zi /nologo /W3 /WX- /sdl /Od /D _CRT_SECURE_NO_WARNINGS /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt ..\thirdparty\svm\corrected_svm.cpp BatchTest.cpp CvvImage.cpp Setting.cpp TestEasyPr.cpp testPR.cpp SingleTest.cpp
+         SingleTest.cpp
+     1>D:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/feature.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/chars_recognise.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/util/util.h(11): warning C4005: “OS_WINDOWS”: 宏重定义
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\shlwapi.h(2024) : 参见“OS_WINDOWS”的前一个定义
+     1>SingleTest.cpp(159): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+     1>SingleTest.cpp(160): warning C4244: “=”: 从“double”转换到“int”，可能丢失数据
+         testPR.cpp
+     1>D:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/feature.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/chars_recognise.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/util/util.h(11): warning C4005: “OS_WINDOWS”: 宏重定义
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\shlwapi.h(2024) : 参见“OS_WINDOWS”的前一个定义
+         TestEasyPr.cpp
+     1>D:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/feature.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/chars_recognise.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/util/util.h(11): warning C4005: “OS_WINDOWS”: 宏重定义
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\shlwapi.h(2024) : 参见“OS_WINDOWS”的前一个定义
+         Setting.cpp
+     1>D:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/feature.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/core/chars_recognise.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>f:\github\easypr_mfc\easypr\include\easypr/util/util.h(11): warning C4005: “OS_WINDOWS”: 宏重定义
+                 C:\Program Files (x86)\Windows Kits\8.1\Include\um\shlwapi.h(2024) : 参见“OS_WINDOWS”的前一个定义
+         CvvImage.cpp
+     1>D:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
          BatchTest.cpp
      1>D:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
      1>D:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
@@ -10,13 +50,20 @@
      1>f:\github\easypr_mfc\easypr\include\easypr/core/chars_recognise.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
      1>f:\github\easypr_mfc\easypr\include\easypr/util/util.h(11): warning C4005: “OS_WINDOWS”: 宏重定义
                  C:\Program Files (x86)\Windows Kits\8.1\Include\um\shlwapi.h(2024) : 参见“OS_WINDOWS”的前一个定义
-     1>f:\github\easypr_mfc\easypr\include\easypr/preprocess/mc_data.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-     1>f:\github\easypr_mfc\easypr\include\easypr/preprocess/gdts.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-     1>f:\github\easypr_mfc\easypr\include\easypr/preprocess/deface.h : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>BatchTest.cpp(125): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+         corrected_svm.cpp
+     1>D:\opencv\build\include\opencv2/core/mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+     1>D:\opencv\build\include\opencv2/core/utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+         正在生成代码...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _DEBUG /D _UNICODE /D UNICODE /D _AFXDLL /l"0x0804" /Ix64\Debug\ /nologo /fo"x64\Debug\testPR.res" testPR.rc 
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"F:\GITHUB\EasyPR_MFC\EasyPR\x64\Debug\testPR.exe" /INCREMENTAL /NOLOGO /LIBPATH:"%OPENCV%\x64\vc12\lib" opencv_world300d.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:"F:\GITHUB\EasyPR_MFC\EasyPR\x64\Debug\testPR.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /ENTRY:"wWinMainCRTStartup" /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\GITHUB\EasyPR_MFC\EasyPR\x64\Debug\testPR.lib" /MACHINE:X64 x64\Debug\testPR.res
+         x64\Debug\corrected_svm.obj
          x64\Debug\BatchTest.obj
          x64\Debug\CvvImage.obj
+         x64\Debug\Setting.obj
          x64\Debug\stdafx.obj
          x64\Debug\TestEasyPr.obj
          x64\Debug\testPR.obj
@@ -27,4 +74,4 @@
 
 生成成功。
 
-已用时间 00:00:08.43
+已用时间 00:00:44.65

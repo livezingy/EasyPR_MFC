@@ -62,6 +62,7 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="D:\opencv3x\opencv_configFile\opencv_debugX64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -77,8 +78,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\opencv\build\include\opencv2;D:\opencv\build\include\opencv;D:\opencv\build\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>D:\opencv\build\x64\vc12\lib;D:\opencv\build\x64\vc12\staticlib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
+    <IncludePath>$(SolutionDir);D:\opencv\build\include\opencv2;D:\opencv\build\include\opencv;D:\opencv\build\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>D:\opencv\build\x64\vc12\staticlib;D:\opencv\build\x64\vc12\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -125,7 +126,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_world300d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opencv_world300d.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%OPENCV%\x64\vc12\lib</AdditionalLibraryDirectories>
     </Link>
     <Midl>
@@ -195,11 +196,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\thirdparty\svm\precomp.hpp" />
     <ClInclude Include="BatchTest.h" />
     <ClInclude Include="CvvImage.h" />
     <ClInclude Include="plate.hpp" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="result.hpp" />
+    <ClInclude Include="Setting.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestEasyPr.h" />
@@ -207,8 +210,10 @@
     <ClInclude Include="SingleTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\thirdparty\svm\corrected_svm.cpp" />
     <ClCompile Include="BatchTest.cpp" />
     <ClCompile Include="CvvImage.cpp" />
+    <ClCompile Include="Setting.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -9,14 +9,8 @@
 #include "afxdialogex.h"
 #include <atlconv.h>
 #include "resource.h"
-#include "easypr.h"
+
 #include "TestEasyPr.h"
-
-
-using namespace easypr;
-using namespace cv;
-using namespace std;
-using namespace api;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -63,6 +57,8 @@ BOOL CSingleTest::OnInitDialog()
 
 	((CComboBox*)GetDlgItem(IDC_COMBO1))->InsertString(3, _T("chars segment"));
 
+	((CComboBox*)GetDlgItem(IDC_COMBO1))->InsertString(4, _T("gray and binary"));
+
 	((CComboBox*)GetDlgItem(IDC_COMBO1))->SetCurSel(0);
 
 	
@@ -101,18 +97,9 @@ void CSingleTest::OnPaint()
 		CDialogEx::OnPaint();
 		if (m_srcPath != "")
 		{
-			CRect   rectPC;
-			CWnd *pWnd = NULL;
-			pWnd = GetDlgItem(SRC_STATIC);
-			pWnd->GetClientRect(&rectPC);
+			IplImage* pShowImg = resizeImage();
 
-			CDC *pDc = NULL;
-			pDc = pWnd->GetDC();
-
-			//draw the picture in the Picture Control 
-			m_sImage.DrawToHDC(pDc->m_hDC, rectPC);
-
-			ReleaseDC(pDc);
+			DrawPicToHDC(pShowImg, SRC_STATIC);
 		}
 	}
 }
@@ -124,71 +111,76 @@ void CSingleTest::OnBnClickedButton1()
 	CFileDialog openfile(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, NULL, NULL);
 	INT_PTR result = openfile.DoModal();
 
-	int cx, cy;		
-	CRect rectPC;
-	
-	//get the size of Picture Control 
-	GetDlgItem(SOURCE_IMAGE)->GetWindowRect(&rectPC);
-
 	if (result == IDOK)
-	{
+	{		
 		//Get image path
 		CString tmpSrcPath = openfile.GetPathName();
 
 		USES_CONVERSION;
 		string tmps_srcPath(W2A(tmpSrcPath));
 		m_srcPath = tmps_srcPath;
-		//load the selected image 
-		m_sImage.Load(m_srcPath.c_str());
 
-		cx = m_sImage.Width() - rectPC.Width();
-		cy = m_sImage.Height() - rectPC.Height();
+		IplImage* pShowImg = resizeImage();
+
+		DrawPicToHDC(pShowImg, SRC_STATIC);
+
+	}
+}
+
+void CSingleTest::ShowIplImage(IplImage* img) {
+	CDC* pDC = GetDC();
+	HDC hDC = pDC->GetSafeHdc();
+	CRect rect;
+	rect.SetRect(0, 0, img->width, img->height);
+	CvvImage cimg;
+	cimg.CopyOf(img);
+	cimg.DrawToHDC(hDC, &rect);
+	ReleaseDC(pDC);
+}
+
+IplImage* CSingleTest::resizeImage()
+{
+	IplImage* pSrcImage = cvLoadImage(m_srcPath.c_str(), CV_LOAD_IMAGE_UNCHANGED);
+	IplImage* pDstImage = NULL;
+
+	CRect rectPC;
+	//get the size of Picture Control 
+	GetDlgItem(SRC_STATIC)->GetWindowRect(&rectPC);
+
+	double fWidth = (double)(rectPC.Width()) / (pSrcImage->width);
+	double fHeight = (double)(rectPC.Height()) / (pSrcImage->height);
+
+	if ((fWidth < 1) || (fHeight < 1))
+	{
+		double fScale = (fWidth > fHeight) ? fHeight:fWidth;
+
+		CvSize czSize;              //目标图像尺寸  
+		//计算目标图像大小  
+		czSize.width = pSrcImage->width * fScale;
+		czSize.height = pSrcImage->height * fScale;
+
+		//创建图像并缩放  
+		pDstImage = cvCreateImage(czSize, pSrcImage->depth, pSrcImage->nChannels);
+		cvResize(pSrcImage, pDstImage, CV_INTER_AREA);
 	}
 	else
 	{
-		cx = 0;
-		cy = 0;
+		pDstImage = pSrcImage;
 	}
 
-		
-	//Get the width and Height of the image
+	return pDstImage;
+}
 
-	/*
-	CRect testRec;
-	CTestEasyPr *TestEasyPr = CTestEasyPr::m_testDlg;
-	TestEasyPr->GetWindowRect(testRec);
-	TestEasyPr->SetWindowPos(NULL, 0, 0, testRec.Width() + cx, testRec.Height() + cy, SWP_NOZORDER | SWP_NOMOVE);
-	*/
-
-	CPoint topLeft = m_dlgRect.TopLeft();
-	CPoint bottomRight = { (m_dlgRect.Width() + cx), (m_dlgRect.Height() + cy) };
-
-	m_dlgRect.SetRect(topLeft, bottomRight);
-
-	//SWP_NOZORDER:忽略第一个参数
-	//SWP_NOMOVE:忽略参数x,y，维持位置不变
-	CWnd::SetWindowPos(NULL, 0, 0, m_dlgRect.Width(), m_dlgRect.Height(), SWP_NOZORDER | SWP_NOMOVE);
-
-	ChangeSize(SOURCE_IMAGE, cx, cy);
-	ChangeSize(SRC_STATIC, cx, cy);
-	//ChangeSize(IDC_EASYPRTAB, cx, cy);
-
-	GetDlgItem(SRC_STATIC)->GetWindowRect(&rectPC);
-		
-	//Get the size of the Picture
-	CWnd *pWnd = NULL;
-	pWnd = GetDlgItem(SRC_STATIC);
-	pWnd->GetClientRect(&rectPC);
-
-	CDC *pDc = NULL;
-	pDc = pWnd->GetDC();
-		
-	//draw the picture in the Picture Control 
-	m_sImage.DrawToHDC(pDc->m_hDC, rectPC);
-
-	ReleaseDC(pDc);
-	//}
-
+void CSingleTest::DrawPicToHDC(IplImage* iplimg, UINT ID)
+{
+	CDC *pDC = GetDlgItem(ID)->GetDC();
+	HDC hDC = pDC->GetSafeHdc();
+	CRect rect;
+	GetDlgItem(ID)->GetClientRect(&rect);
+	CvvImage cimg;
+	cimg.CopyOf(iplimg);
+	cimg.DrawToHDC(hDC, &rect);
+	ReleaseDC(pDC);
 }
 
 void CSingleTest::ChangeSize(UINT nID, int x, int y)  //nID为控件ID，x,y分别为对话框的当前长和宽
@@ -218,10 +210,11 @@ int CSingleTest::test_plate_locate()
 	CPlateLocate plate;
 
 	int result = plate.plateLocate(src, resultVec);
-	if (result == 0) 
+	size_t num = resultVec.size();
+	if ((result == 0) && (num > 0))
 	{
 		cv::Mat resultMat,comMat;
-		size_t num = resultVec.size();
+		
 		size_t j = 1;
 		comMat = resultVec[0];
 		while (j < num)
@@ -230,8 +223,11 @@ int CSingleTest::test_plate_locate()
 			vconcat(comMat, resultMat, comMat);
 			j++;
 		}
-
-		imshow("view", comMat);
+		if ((comMat.rows > 0) && (comMat.cols > 0))
+		{
+			imshow("view", comMat);
+		}
+		
 	}
 
 	return result;
@@ -247,8 +243,6 @@ int CSingleTest::test_plate_judge()
 
 	CPlateLocate lo;
 	lo.setDebug(1);
-	lo.setLifemode(true);
-
 	int resultLo = lo.plateLocate(src, matVec);
 
 	if (0 != resultLo) return -1;
@@ -259,16 +253,24 @@ int CSingleTest::test_plate_judge()
 
 	cv::Mat resultMat, comMat;
 	size_t num = resultVec.size();
-	size_t j = 1;
-	comMat = resultVec[0];
-	while (j < num)
-	{
-		resultMat = resultVec[j];
-		vconcat(comMat, resultMat, comMat);
-		j++;
-	}
 
-	imshow("view", comMat);
+	if (num > 0)
+	{
+
+		size_t j = 1;
+
+		comMat = resultVec[0];
+		while (j < num)
+		{
+			resultMat = resultVec[j];
+			vconcat(comMat, resultMat, comMat);
+			j++;
+		}
+		if ((comMat.rows > 0) && (comMat.cols > 0))
+		{
+			imshow("view", comMat);
+		}
+	}
 
 	return resultJu;
 }
@@ -278,10 +280,26 @@ int CSingleTest::test_plate_detect()
 	cv::Mat src = imread(m_srcPath);
 
 	vector<CPlate> resultVec;
-	CPlateDetect pd;
-	pd.setPDLifemode(true);
 
-	int result = pd.plateDetect(src, resultVec,0,true);
+	int result = m_single_pd.plateDetect(src, resultVec);
+	size_t num = resultVec.size();
+
+	if ((0 == result) && (num > 0))
+	{
+		cv::Mat resultMat, comMat;
+		size_t j = 1;
+		comMat = resultVec[0].getPlateMat();
+		while (j < num)
+		{
+			resultMat = resultVec[j].getPlateMat();
+			vconcat(comMat, resultMat, comMat);
+			j++;
+		}
+		if ((comMat.rows > 0) && (comMat.cols > 0))
+		{
+			imshow("view", comMat);
+		}
+	}
 
 	return result;
 }
@@ -293,11 +311,16 @@ int CSingleTest::test_chars_segment() {
 	std::vector<cv::Mat> resultVec;
 	vector<CPlate> plateVec;
 	CCharsSegment plate;
-	CPlateDetect pd;
-	int result;
-	cv::Mat resultMat, comMat;
+	int result = 1;
+	cv::Mat newMat, comHMat, comVMat;
 
-	int resultPD = pd.plateDetect(src, plateVec);
+
+	int resultPD = m_single_pd.plateDetect(src, plateVec);
+
+	if (resultPD != 0)
+	{
+		return resultPD;
+	}
 
 	size_t numPlate = plateVec.size();
 
@@ -313,45 +336,100 @@ int CSingleTest::test_chars_segment() {
 
 			size_t num = resultVec.size();
 			size_t i = 1;
-			comMat = resultVec[0];
+			comHMat = resultVec[0];
 			while (i < num)
 			{
-				resultMat = resultVec[i];
-				hconcat(comMat, resultMat, comMat);
+				newMat = resultVec[i];
+				hconcat(comHMat, newMat, comHMat);
 				i++;
 			}
+		
 		}
+		if (j == 0)
+		{
+			comVMat = comHMat;
+		}
+		else
+		{
+			vconcat(comVMat, comHMat, comVMat);
+		}
+		
 	}
 
-	imshow("view", comMat);
+	if ((comVMat.rows > 0) && (comVMat.cols > 0))
+	{
+		imshow("view", comVMat);
+	}
+	
 
 	return result;
 }
 
-void CSingleTest::ShowIplImage(IplImage* img) {
-	CDC* pDC = GetDC();
-	HDC hDC = pDC->GetSafeHdc(); 
-	CRect rect; 
-	rect.SetRect(0, 0, img->width, img->height); 
-	CvvImage cimg; 
-	cimg.CopyOf(img); 
-	cimg.DrawToHDC(hDC, &rect); 
-	ReleaseDC(pDC);
-}
 
-
-
-void CSingleTest::DrawPicToHDC(IplImage* iplimg, UINT ID)
+int CSingleTest::test_gray_Binary()
 {
-	CDC *pDC = GetDlgItem(ID)->GetDC();
-	HDC hDC = pDC->GetSafeHdc();
-	CRect rect;
-	GetDlgItem(ID)->GetClientRect(&rect);
-	CvvImage cimg;
-	cimg.CopyOf(iplimg);
-	cimg.DrawToHDC(hDC, &rect);
-	ReleaseDC(pDC);
+	cv::Mat src = cv::imread(m_srcPath);
+
+	std::vector<cv::Mat> resultVec;
+	vector<CPlate> plateVec;
+	CCharsSegment plate;
+	int result = 1;
+	cv::Mat grayMat, binaMat, comHMat, comVMat;
+	
+
+	int resultPD = m_single_pd.plateDetect(src, plateVec);
+
+	if (resultPD != 0)
+	{
+		return resultPD;
+	}
+
+	size_t numPlate = plateVec.size();
+
+	for (size_t j = 0; j < numPlate; j++)
+	{
+		CPlate item = plateVec.at(j);
+
+		Mat plateMat = item.getPlateMat();
+
+		cvtColor(plateMat, grayMat, CV_BGR2GRAY);
+
+		Color color;
+		if (item.getPlateLocateType() == CMSER) {
+			color = item.getPlateColor();
+		}
+		else {
+			int w = plateMat.cols;
+			int h = plateMat.rows;
+			Mat tmpMat = plateMat(Rect_<double>(w * 0.1, h * 0.1, w * 0.8, h * 0.8));
+			color = getPlateType(tmpMat, true);
+		}
+		binaMat = grayMat.clone();
+		spatial_ostu(binaMat, 8, 2, color);
+
+		hconcat(grayMat, binaMat, comHMat);
+
+		
+		if (j == 0)
+		{
+			comVMat = comHMat;
+		}
+		else
+		{
+			vconcat(comVMat, comHMat, comVMat);
+		}
+
+	}
+
+	if ((comVMat.rows > 0) && (comVMat.cols > 0))
+	{
+		imshow("view", comVMat);
+	}
+
+
+	return result;
 }
+
 
 
 //choose the plate process to observer
@@ -383,6 +461,11 @@ void CSingleTest::OnBnClickedProcessButton()
 		test_chars_segment();
 		::ShowWindow(hWnd, SW_SHOW);
 		break;
+
+	case 4:
+		test_gray_Binary();
+		::ShowWindow(hWnd, SW_SHOW);
+		break;
 	default:
 		break;
 
@@ -393,15 +476,9 @@ void CSingleTest::OnBnClickedProcessButton()
 //Get the recognition result of the loaded plate
 void CSingleTest::OnBnClickedButton()
 {
-	CPlateRecognize pr;
-	pr.setLifemode(true);
-	pr.setDebug(false);
-	pr.setMaxPlates(4);
-	pr.setDetectType(easypr::PR_DETECT_CMSER);
-
 	vector<CPlate> plateVec;
 	Mat src = imread(m_srcPath);//m_srcPath是std::string类型，记录用户当前选中的待识别图片的路径
-	int result = pr.plateRecognize(src, plateVec);
+	int result = m_single_pr.plateRecognize(src, plateVec);
 
 	if (result == 0)
 	{

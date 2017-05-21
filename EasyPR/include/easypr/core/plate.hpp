@@ -32,6 +32,8 @@ namespace easypr {
 
     CPlate(const CPlate& other) {
       m_plateMat = other.m_plateMat;
+      m_chineseMat = other.m_chineseMat;
+      m_chineseKey = other.m_chineseKey;
       m_score = other.m_score;
       m_platePos = other.m_platePos;
       m_plateStr = other.m_plateStr;
@@ -42,7 +44,7 @@ namespace easypr {
       m_rightPoint = other.m_rightPoint;
       m_mergeCharRect = other.m_mergeCharRect;
       m_maxCharRect = other.m_maxCharRect;
-
+      m_scale = other.m_scale;
       m_distVec = other.m_distVec;
 
       m_mserCharVec = other.m_mserCharVec;
@@ -53,6 +55,8 @@ namespace easypr {
     CPlate& operator=(const CPlate& other) {
       if (this != &other) {
         m_plateMat = other.m_plateMat;
+        m_chineseMat = other.m_chineseMat;
+        m_chineseKey = other.m_chineseKey;
         m_score = other.m_score;
         m_platePos = other.m_platePos;
         m_plateStr = other.m_plateStr;
@@ -76,6 +80,12 @@ namespace easypr {
     inline void setPlateMat(Mat param) { m_plateMat = param; }
     inline Mat getPlateMat() const { return m_plateMat; }
 
+    inline void setChineseMat(Mat param) { m_chineseMat = param; }
+    inline Mat getChineseMat() const { return m_chineseMat; }
+
+    inline void setChineseKey(String param) { m_chineseKey = param; }
+    inline String getChineseKey() const { return m_chineseKey; }
+
     inline void setPlatePos(RotatedRect param) { m_platePos = param; }
     inline RotatedRect getPlatePos() const { return m_platePos; }
 
@@ -87,6 +97,9 @@ namespace easypr {
 
     inline void setPlateColor(Color param) { m_plateColor = param; }
     inline Color getPlateColor() const { return m_plateColor; }
+
+    inline void setPlateScale(float param) { m_scale = param; }
+    inline float getPlateScale() const { return m_scale; }
 
     inline void setPlateScore(double param) { m_score = param; }
     inline double getPlateScore() const { return m_score; }
@@ -120,15 +133,8 @@ namespace easypr {
     inline void addReutCharacter(CCharacter param) { m_reutCharVec.push_back(param); }
     inline std::vector<CCharacter> getCopyOfReutCharacters() { return m_reutCharVec; }
 
-    bool operator < (const CPlate& plate) const
-    {
-      return (m_score < plate.m_score);
-    }
-
-    bool operator < (const CPlate& plate)
-    {
-      return (m_score < plate.m_score);
-    }
+    bool operator < (const CPlate& plate) const { return (m_score < plate.m_score); }
+    bool operator < (const CPlate& plate) { return (m_score < plate.m_score); }
 
   private:
     //! plate mat
@@ -145,6 +151,9 @@ namespace easypr {
 
     //! plate color type
     Color m_plateColor;
+
+    //! scale ratio
+    float m_scale;
 
     //! plate likely
     double m_score;
@@ -169,6 +178,12 @@ namespace easypr {
     std::vector<CCharacter> m_reutCharVec;
 
     int m_charCount;
+
+    //! chinese mat;
+    Mat m_chineseMat;
+
+    //! chinese key;
+    String m_chineseKey;
 
     //! distVec
     Vec2i m_distVec;

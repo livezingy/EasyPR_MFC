@@ -5,19 +5,28 @@
 #include "easypr/config.h"
 
 using namespace cv;
+using namespace std;
 
 namespace easypr {
 
 class CCharsSegment {
  public:
   CCharsSegment();
-
+  //! using ostu algotithm the segment chars in plate
   int charsSegment(Mat input, std::vector<Mat>& resultVec, Color color = BLUE);
+
+  //! using methods to segment chars in plate
+  int charsSegmentUsingOSTU(Mat input, std::vector<Mat>& resultVec, std::vector<Mat>& grayChars, Color color = BLUE);
+  int charsSegmentUsingMSER(Mat input, vector<Mat>& resultVec, vector<Mat>& grayChars, Color color = BLUE);
+
+  //! using project 
+  int projectSegment(const Mat& input, Color color, vector<int>& out_indexs);
 
   bool verifyCharSizes(Mat r);
 
   // find the best chinese binaranzation method
   void judgeChinese(Mat in, Mat& out, Color plateType);
+  void judgeChineseGray(Mat in, Mat& out, Color plateType);
 
   Mat preprocessChar(Mat in);
 
@@ -30,7 +39,6 @@ class CCharsSegment {
   //! Do two things
   //  1.remove rect in the left of city character
   //  2.from the city rect, to the right, choose 6 rects
-
   int RebuildRect(const std::vector<Rect>& vecRect, std::vector<Rect>& outRect,
                   int specIndex);
 

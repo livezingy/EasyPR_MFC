@@ -1,11 +1,12 @@
 #include "easypr/train/svm_train.h"
-#include "easypr/core/feature.h"
 #include "easypr/util/util.h"
+#include "easypr/config.h"
 
 #ifdef OS_WINDOWS
 #include <ctime>
 #endif
 
+using namespace cv;
 using namespace cv::ml;
 
 namespace easypr {
@@ -14,6 +15,8 @@ SvmTrain::SvmTrain(const char* plates_folder, const char* xml)
     : plates_folder_(plates_folder), svm_xml_(xml) {
   assert(plates_folder);
   assert(xml);
+
+  extractFeature = getHistomPlusColoFeatures;
 }
 
 void SvmTrain::train() {
@@ -29,15 +32,21 @@ void SvmTrain::train() {
   svm_->setP(0.1);
   svm_->setTermCriteria(cvTermCriteria(CV_TERMCRIT_ITER, 20000, 0.0001));
 
+  if (train_file_list_.size() == 0) {
+    fprintf(stdout, "No file found in the train folder!\n");
+    fprintf(stdout, "You should create a folder named \"tmp\" in EasyPR main folder.\n");
+    fprintf(stdout, "Copy train data folder(like \"SVM\") under \"tmp\". \n");
+    return;
+  }
   auto train_data = tdata();
 
   fprintf(stdout, ">> Training SVM model, please wait...\n");
   long start = utils::getTimestamp();
-  //svm_->trainAuto(train_data, 10, SVM::getDefaultGrid(SVM::C),
-  //                SVM::getDefaultGrid(SVM::GAMMA), SVM::getDefaultGrid(SVM::P),
-  //                SVM::getDefaultGrid(SVM::NU), SVM::getDefaultGrid(SVM::COEF),
-  //                SVM::getDefaultGrid(SVM::DEGREE), true);
-  svm_->train(train_data);
+  svm_->trainAuto(train_data, 10, SVM::getDefaultGrid(SVM::C),
+                  SVM::getDefaultGrid(SVM::GAMMA), SVM::getDefaultGrid(SVM::P),
+                  SVM::getDefaultGrid(SVM::NU), SVM::getDefaultGrid(SVM::COEF),
+                  SVM::getDefaultGrid(SVM::DEGREE), true);
+  //svm_->train(train_data);
 
   long end = utils::getTimestamp();
   fprintf(stdout, ">> Training done. Time elapse: %ldms\n", end - start);
@@ -46,19 +55,20 @@ void SvmTrain::train() {
 
   fprintf(stdout, ">> Your SVM Model was saved to %s\n", svm_xml_);
   fprintf(stdout, ">> Testing...\n");
-  this->test();
 
+  this->test();
+  
 }
 
 void SvmTrain::test() {
   // 1.4 bug fix: old 1.4 ver there is no null judge
-  if (NULL == svm_)
-    svm_ = cv::ml::SVM::load<cv::ml::SVM>(svm_xml_);
+  // if (NULL == svm_)
+  LOAD_SVM_MODEL(svm_, svm_xml_);
 
   if (test_file_list_.empty()) {
     this->prepare();
   }
-
+ 
   double count_all = test_file_list_.size();
   double ptrue_rtrue = 0;
   double ptrue_rfalse = 0;
@@ -68,15 +78,14 @@ void SvmTrain::test() {
   for (auto item : test_file_list_) {
     auto image = cv::imread(item.file);
     if (!image.data) {
-      
       std::cout << "no" << std::endl;
       continue;
     }
     cv::Mat feature;
-    getLBPFeatures(image, feature);
+    extractFeature(image, feature);
 
     auto predict = int(svm_->predict(feature));
-    std::cout << "predict: " << predict << std::endl;
+    //std::cout << "predict: " << predict << std::endl;
 
     auto real = item.label;
     if (predict == kForward && real == kForward) ptrue_rtrue++;
@@ -170,7 +179,7 @@ cv::Ptr<cv::ml::TrainData> SvmTrain::tdata() {
       continue;
     }
     cv::Mat feature;
-    getLBPFeatures(image, feature);
+    extractFeature(image, feature);
     feature = feature.reshape(1, 1);
 
     samples.push_back(feature);
@@ -181,8 +190,7 @@ cv::Ptr<cv::ml::TrainData> SvmTrain::tdata() {
   samples.convertTo(samples_, CV_32FC1);
   cv::Mat(responses).copyTo(responses_);
 
-  return cv::ml::TrainData::create(samples_, cv::ml::SampleTypes::ROW_SAMPLE,
-                                   responses_);
+  return cv::ml::TrainData::create(samples_, cv::ml::SampleTypes::ROW_SAMPLE, responses_);
 }
 
 }  // namespace easypr

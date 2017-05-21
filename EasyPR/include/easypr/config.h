@@ -1,6 +1,9 @@
 #ifndef EASYPR_CONFIG_H_
 #define EASYPR_CONFIG_H_
 
+
+#define CV_VERSION_THREE_ZERO
+
 namespace easypr {
 
   enum Color { BLUE, YELLOW, WHITE, UNKNOWN };
@@ -11,15 +14,29 @@ namespace easypr {
 
   enum
   {
+    PR_MODE_UNCONSTRAINED,
+    PR_MODE_CAMERPOHNE,
+    PR_MODE_PARKING,
+    PR_MODE_HIGHWAY
+  };
+
+  enum
+  {
     PR_DETECT_SOBEL = 0x01,  /**Sobel detect type, using twice Sobel  */
     PR_DETECT_COLOR = 0x02,  /**Color detect type   */
     PR_DETECT_CMSER = 0x04,  /**Character detect type, using mser  */
   };
 
-static const char* kDefaultSvmPath = "resources/model/svm.xml";
-static const char* kLBPSvmPath = "resources/model/svm_lbp_final.xml";
-static const char* kDefaultAnnPath = "resources/model/ann.xml";
-static const char* kChineseAnnPath = "resources/model/ann_chinese.xml";
+static const char* kDefaultSvmPath = "model/svm_hist.xml";
+static const char* kLBPSvmPath = "model/svm_lbp.xml";
+static const char* kHistSvmPath = "model/svm_hist.xml";
+
+static const char* kDefaultAnnPath = "model/ann.xml";
+static const char* kChineseAnnPath = "model/ann_chinese.xml";
+static const char* kGrayAnnPath = "model/annCh.xml";
+
+//This is important to for key transform to chinese
+static const char* kChineseMappingPath = "model/province_mapping";
 
 typedef enum {
   kForward = 1, // correspond to "has plate"
@@ -29,8 +46,8 @@ typedef enum {
 static const int   kPlateResizeWidth = 136;
 static const int   kPlateResizeHeight = 36;
 
-static const int   kShowWindowWidth = 800;
-static const int   kShowWindowHeight = 600;
+static const int   kShowWindowWidth = 1000;
+static const int   kShowWindowHeight = 800;
 
 static const float kSvmPercentage   = 0.7f;
 
@@ -80,6 +97,54 @@ static const int kCharsTotalNumber = 65;
 
 static bool kDebug = false;
 
+static const int kGrayCharWidth = 20;
+static const int kGrayCharHeight = 32;
+  static const int kCharLBPGridX = 4;
+  static const int kCharLBPGridY = 4;
+  static const int kCharLBPPatterns = 16;
+
+  static const int kCharHiddenNeurans = 64;
+
+  static const int kCharsCountInOnePlate = 7;
+  static const int kSymbolsCountInChinesePlate = 6;
+
+  static const float kPlateMaxSymbolCount = 7.5f;
+  static const int kSymbolIndex = 2;
+
+// Disable the copy and assignment operator for this class.
+#define DISABLE_ASSIGN_AND_COPY(className) \
+private:\
+  className& operator=(const className&); \
+  className(const className&)
+
+// Display the image.
+#define SET_DEBUG(param) \
+  kDebug = param
+
+// Display the image.
+#define SHOW_IMAGE(imgName, debug) \
+  if (debug) { \
+    namedWindow("imgName", WINDOW_AUTOSIZE); \
+    moveWindow("imgName", 500, 500); \
+    imshow("imgName", imgName); \
+    waitKey(0); \
+    destroyWindow("imgName"); \
+  }
+  
+// Load model. compatitable withe 3.0, 3.1 and 3.2
+#ifdef CV_VERSION_THREE_TWO
+  #define LOAD_SVM_MODEL(model, path) \
+    model = cv::ml::SVM::load(path);
+  #define LOAD_ANN_MODEL(model, path) \
+  model = cv::ml::ANN_MLP::load(path);
+#else
+  #define LOAD_SVM_MODEL(model, path) \
+  model = cv::ml::SVM::load<ml::SVM>(path);
+  #define LOAD_ANN_MODEL(model, path) \
+  model = cv::ml::ANN_MLP::load<ml::ANN_MLP>(path);
+#endif
+
+  
 }
 
 #endif // EASYPR_CONFIG_H_

@@ -57,6 +57,7 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="D:\opencv3x\opencv_configFile\opencv_debugX64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -74,8 +75,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>D:\opencv\build\include\opencv2;D:\opencv\build\include\opencv;D:\opencv\build\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>D:\opencv\build\x64\vc12\lib;D:\opencv\build\x64\vc12\staticlib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
+    <IncludePath>$(SolutionDir);D:\opencv\build\include\opencv2;D:\opencv\build\include\opencv;D:\opencv\build\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>D:\opencv\build\x64\vc12\staticlib;D:\opencv\build\x64\vc12\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)_build\</OutDir>
@@ -161,10 +162,9 @@
     <ClCompile Include="..\src\core\plate_judge.cpp" />
     <ClCompile Include="..\src\core\plate_locate.cpp" />
     <ClCompile Include="..\src\core\plate_recognize.cpp" />
-    <ClCompile Include="..\src\preprocess\deface.cpp" />
-    <ClCompile Include="..\src\preprocess\gdts.cpp" />
-    <ClCompile Include="..\src\preprocess\mc_data.cpp" />
+    <ClCompile Include="..\src\train\annCh_train.cpp" />
     <ClCompile Include="..\src\train\ann_train.cpp" />
+    <ClCompile Include="..\src\train\create_data.cpp" />
     <ClCompile Include="..\src\train\svm_train.cpp" />
     <ClCompile Include="..\src\train\train.cpp" />
     <ClCompile Include="..\src\util\kv.cpp" />
@@ -191,12 +191,12 @@
     <ClInclude Include="..\include\easypr\core\plate_judge.h" />
     <ClInclude Include="..\include\easypr\core\plate_locate.h" />
     <ClInclude Include="..\include\easypr\core\plate_recognize.h" />
-    <ClInclude Include="..\include\easypr\preprocess\deface.h" />
-    <ClInclude Include="..\include\easypr\preprocess\gdts.h" />
-    <ClInclude Include="..\include\easypr\preprocess\mc_data.h" />
+    <ClInclude Include="..\include\easypr\train\annCh_train.h" />
     <ClInclude Include="..\include\easypr\train\ann_train.h" />
+    <ClInclude Include="..\include\easypr\train\create_data.h" />
     <ClInclude Include="..\include\easypr\train\svm_train.h" />
     <ClInclude Include="..\include\easypr\train\train.h" />
+    <ClInclude Include="..\include\easypr\util\kv.h" />
     <ClInclude Include="..\include\easypr\util\program_options.h" />
     <ClInclude Include="..\include\easypr\util\switch.hpp" />
     <ClInclude Include="..\include\easypr\util\util.h" />

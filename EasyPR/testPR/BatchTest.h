@@ -1,6 +1,13 @@
 #pragma once
 #include <string>
 
+#include "easypr.h"
+
+using namespace easypr;
+using namespace cv;
+using namespace std;
+using namespace api;
+
 // CBatchTest 对话框
 
 class CBatchTest : public CDialogEx
@@ -13,7 +20,7 @@ public:
 
 // 对话框数据
 	enum { IDD = IDD_TESTPR_BATCH };
-
+	CPlateRecognize m_batch_pd;
 protected:
 	CListCtrl* m_BatchList;
 	CString m_folderPath;
@@ -28,7 +35,7 @@ protected:
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
-	void processPlate(CString platePath);
+	void processPlate(Mat& src);
 
 	DECLARE_MESSAGE_MAP()
 public:

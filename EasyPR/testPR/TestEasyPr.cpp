@@ -5,6 +5,11 @@
 #include "testPR.h"
 #include "TestEasyPr.h"
 #include "afxdialogex.h"
+#include "easypr.h"
+using namespace easypr;
+using namespace cv;
+using namespace std;
+using namespace api;
 
 CTestEasyPr *CTestEasyPr::m_testDlg = NULL;
 
@@ -58,9 +63,6 @@ BOOL CTestEasyPr::OnInitDialog()
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
-	
-
-	//GetClientRect(&m_TestDlgRect);
 
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
 	if (pSysMenu != NULL)
@@ -82,7 +84,7 @@ BOOL CTestEasyPr::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// ÉèÖÃÐ¡Í¼±ê
 
 	m_testDlg = this;
-
+	m_SettingDlg = new CSetting();
 	m_batchTestDlg = new CBatchTest();
 	m_singleTestDlg = new CSingleTest();
 	m_batchTestDlg->Create(IDD_TESTPR_BATCH, GetDlgItem(IDC_EASYPRTAB));
@@ -107,6 +109,18 @@ BOOL CTestEasyPr::OnInitDialog()
 	m_singleTestDlg->ShowWindow(true);
 
 	m_easyprTab->SetCurSel(0);
+
+    m_singleTestDlg->m_single_pd.setDetectType(PR_DETECT_CMSER);
+
+	m_singleTestDlg->m_single_pd.setPDLifemode(false);
+
+	m_singleTestDlg->m_single_pr.setDetectType(PR_DETECT_CMSER);
+
+	m_singleTestDlg->m_single_pr.setPDLifemode(false);
+
+	m_batchTestDlg->m_batch_pd.setDetectType(PR_DETECT_CMSER);
+
+	m_batchTestDlg->m_batch_pd.setPDLifemode(false);
 
 	return TRUE;
 }
@@ -175,6 +189,8 @@ BEGIN_MESSAGE_MAP(CTestEasyPr, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(TCN_SELCHANGE, IDC_EASYPRTAB, &CTestEasyPr::OnTcnSelchangeEasyprtab)
+	ON_COMMAND(ID_SETTING_PATAMETERSETTING, &CTestEasyPr::OnSettingPatametersetting)
+	ON_COMMAND(ID_ABOUT_VERSION, &CTestEasyPr::OnAboutVersion)
 END_MESSAGE_MAP()
 
 void CTestEasyPr::OnSize(UINT nType, int cx, int cy)
@@ -209,4 +225,27 @@ void CTestEasyPr::OnTcnSelchangeEasyprtab(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	*pResult = 0;
+}
+
+
+void CTestEasyPr::OnSettingPatametersetting()
+{
+	//m_SettingDlg->ShowWindow(SW_SHOW);
+	if (m_SettingDlg->DoModal() == IDOK)
+	{
+		m_singleTestDlg->m_single_pd.setDetectType(m_SettingDlg->m_detect_Type);
+		m_singleTestDlg->m_single_pd.setPDLifemode(m_SettingDlg->m_bLifeMode);
+		m_singleTestDlg->m_single_pr.setDetectType(m_SettingDlg->m_detect_Type);
+		m_singleTestDlg->m_single_pr.setPDLifemode(m_bLifeMode);
+
+		m_batchTestDlg->m_batch_pd.setDetectType(m_SettingDlg->m_detect_Type);
+		m_batchTestDlg->m_batch_pd.setPDLifemode(m_SettingDlg->m_bLifeMode);
+	}
+}
+
+
+void CTestEasyPr::OnAboutVersion()
+{
+	CAboutDlg dlgAbout;
+	dlgAbout.DoModal();
 }

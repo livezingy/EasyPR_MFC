@@ -6,6 +6,7 @@
 #include "easypr/core/character.hpp"
 
 using namespace cv;
+using namespace std;
 
 /*! \namespace easypr
 Namespace where all the C++ EasyPR functionality resides
@@ -40,8 +41,10 @@ Rect GetCenterRect(Mat& in);
 Mat CutTheRect(Mat& in, Rect& rect);
 int ThresholdOtsu(Mat mat);
 
+// project histogram
+Mat ProjectedHistogram(Mat img, int t, int threshold = 20);
 
-Mat ProjectedHistogram(Mat img, int t);
+Mat showHistogram(const Mat& hist);
 
 Mat preprocessChar(Mat in, int char_size);
 
@@ -91,7 +94,7 @@ Mat adaptive_image_from_points(const std::vector<Point>& points,
   const Scalar& forgroundColor = Scalar(255, 255, 255), bool gray = true);
 
 // Calculate a rect have same length and width and remains the center
-Rect adaptive_charrect_from_rect(const Rect& rect, int maxwidth, int maxheight);
+Rect adaptive_charrect_from_rect(const Rect& rect, int maxwidth, int maxheight, bool useExtendHeight = false);
 
 // calc safe rect
 bool calcSafeRect(const RotatedRect& roi_rect, const Mat& src,
@@ -99,11 +102,57 @@ bool calcSafeRect(const RotatedRect& roi_rect, const Mat& src,
 bool calcSafeRect(const RotatedRect &roi_rect, const int width, const int height,
   Rect_<float> &safeBoundRect);
 
-// shift an image
-Mat translateImg(Mat img, int offsetx, int offsety);
+// uniform resize all the image to same size for the next process
+Mat uniformResize(const Mat &result, float& scale);
 
-// rotate an image
-Mat rotateImg(Mat source, float angle);
+// uniform resize all the plates to same size for the next process
+Mat uniformResizePlates(const Mat &result, float& scale);
+
+// show detect results
+void showDectectResults(const Mat& img, const std::vector<CPlate> &plateVec, size_t num);
+
+// show the results
+Mat showResult(const Mat &result, int img_index = 0);
+
+// enlarge the char rect
+Rect rectEnlarge(const Rect& src, const int mat_width, const int mat_height);
+Rect rectFit(const Rect &src, const int mat_width, const int mat_height);
+
+// write images to temp folder
+void writeTempImage(const Mat& outImg, const string path, int index = 0);
+
+// remove small hor lines in the plate
+bool judegMDOratio2(const Mat &image, const Rect &rect, std::vector<Point> &contour, Mat &result, const float thresh = 1.f,
+                    bool useExtendHeight = false);
+
+// clear top and bottom borders
+void clearBorder(const Mat &img, Rect& cropRect);
+
+//! non-maximum surpresion for 1d array
+template<typename T>
+void NMSfor1D(const vector<T>& arr, vector<int>& index) {
+  // prepare
+  int size = (int)arr.size();
+  index.resize(size);
+  for (int j = 0; j < size; j++)
+    index.at(j) = 0;
+
+  // nms
+  int i = 1;
+  while (i < size - 1) {
+    if (arr.at(i) > arr.at(i + 1)) {
+      if (arr.at(i) >= arr.at(i - 1))
+        index.at(i) = 1;
+    }
+    else {
+      while (i < size - 1 && arr.at(i) <= arr.at(i + 1))
+        i = i + 1;
+      if (i < size - 1)
+        index.at(i) = 1;
+    }
+    i = i + 2;
+  }
+}
 
 } /*! \namespace easypr*/
 

@@ -5,12 +5,7 @@
 #include "testPR.h"
 #include "BatchTest.h"
 #include "afxdialogex.h"
-#include "easypr.h"
 
-using namespace easypr;
-using namespace cv;
-using namespace std;
-using namespace api;
 // CBatchTest 对话框
 
 IMPLEMENT_DYNAMIC(CBatchTest, CDialogEx)
@@ -108,61 +103,79 @@ void CBatchTest::OnBnClickedChooseBtn()
 
 void CBatchTest::OnBnClickedStartBtn()
 {
+	if (m_folderPath.IsEmpty())
+	{
+		return;
+	}
+
+	CPaintDC paintDC(this);
+
 	CFileFind fileFinder;//类CFileFind执行本地文件查找  
 	CString strPicFile = TEXT("");//  
 	CString strFilePath;//保存文件路径  
 	CString strFileName;//保存文件名  
 	int nIndex = 0;
-	do
+	m_BatchList->DeleteAllItems();//清空
+
+	char buffer[260] = { 0 };
+
+	USES_CONVERSION;
+	string tmps_srcPath(W2A(m_folderPath));
+	vector<string> imgPathTrain = utils::getFiles(tmps_srcPath.c_str());
+	int fileNum = imgPathTrain.size();
+
+	//显示当前识别的进度
+	CProgressCtrl myProCtrl;
+	//myProCtrl.EnableWindow(TRUE);
+
+	CRect rect, proRect;
+	GetClientRect(&rect);
+	proRect.left = rect.left + rect.Width() / 2 - 100;
+	proRect.top = rect.top + rect.Height() / 2 - 20;
+	proRect.right = rect.right - rect.Width() / 2 + 100;
+	proRect.bottom = rect.bottom - rect.Height() / 2 + 20;
+	//WS_CHILD|WS_VISIBLE|PBS_SMOOTHREVERSE
+	myProCtrl.Create(WS_VISIBLE, proRect, this, 99); //创建位置、大小
+	myProCtrl.SetRange(0, fileNum);
+
+	for (auto file : imgPathTrain)
 	{
-		if (m_folderPath.Right(1) == TEXT("\\"))
-		{
-			int nPos = m_folderPath.ReverseFind(TEXT('\\'));
-			m_folderPath = m_folderPath.Left(nPos);
+		auto image = cv::imread(file);
+		if (!image.data) {
+			fprintf(stdout, ">> Invalid image: %s  ignore.\n", file.c_str());
+			continue;
 		}
-		strPicFile.Format(TEXT("%s\\%s"), m_folderPath, TEXT("*.jpg"));//只选择jpg格式的图片  
-		BOOL bWorking = fileFinder.FindFile(strPicFile);
-		while (bWorking)
-		{
-			bWorking = fileFinder.FindNextFile();
-			if (fileFinder.IsDots())//IsDots判断是否为点,由CFileFind对象引用IsDots的意思是：这是一个目录并且不是这个目录本身或者上层目录  
-			{
-				continue;
-			}
-			strFilePath = fileFinder.GetFilePath();//图片的完整路径  
-			strFileName = fileFinder.GetFileName();//图片文件的名字  
-			if (fileFinder.IsDirectory())//检查是否是文件夹，是返回true，不是返回false  
-			{
-				//继续遍历目录  
-				continue;
-			}
-			else
-			{
-				int nPos = strFilePath.ReverseFind(TEXT('.'));
-				CString strExt = strFilePath.Right(strFilePath.GetLength() - nPos - 1);
-				if (strExt.CompareNoCase(TEXT("jpg")) == 0 ||
-					strExt.CompareNoCase(TEXT("jpeg")) == 0 ||
-					strExt.CompareNoCase(TEXT("bmp")) == 0)
-				{
-					//要进行的批量操作  
-					processPlate(strFilePath);
 
-					m_BatchList->InsertItem(nIndex, strFileName);//插入行
-					m_BatchList->SetItemText(nIndex, 1, m_plateResult);//设置该行的不同列的显示字符
-					m_BatchList->SetItemText(nIndex, 2, m_pdTime);//设置该行的不同列的显示字符
-					m_BatchList->SetItemText(nIndex, 3, m_colorTime);//设置该行的不同列的显示字符
-					m_BatchList->SetItemText(nIndex, 4, m_crTime);//设置该行的不同列的显示字符
-					nIndex++;
-				}
-			}
-		}
-	} while (fileFinder.FindNextFile());
+		strFileName = (utils::getFileName(file)).c_str();
 
-	fileFinder.Close();
+		processPlate(image);
+
+		m_BatchList->InsertItem(nIndex, strFileName);//插入行
+		m_BatchList->SetItemText(nIndex, 1, m_plateResult);//设置该行的不同列的显示字符
+		m_BatchList->SetItemText(nIndex, 2, m_pdTime);//设置该行的不同列的显示字符
+		m_BatchList->SetItemText(nIndex, 3, m_colorTime);//设置该行的不同列的显示字符
+		m_BatchList->SetItemText(nIndex, 4, m_crTime);//设置该行的不同列的显示字符
+		nIndex++;
+
+		myProCtrl.OffsetPos(1);
+
+		//double Fraction = (double)nIndex / ((double)fileNum);
+		//CString str;
+		//str.Format(_T("%d%%"), (int)(Fraction*100.0));
+		//CRgn rgn;
+		//rgn.CreateRectRgn(proRect.left, proRect.top, proRect.right, proRect.bottom);
+		//dc.SelectClipRgn(&rgn);
+		//paintDC.SetTextColor(RGB(235, 235, 235));
+		//paintDC.DrawText(str, proRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+
+		//str.Format(_T("%d%%"), nIndex); //百分比
+		//myProCtrl.SetWindowText(str);
+		//myProCtrl.SetDlgItemTextW(str);
+	}
 }
 
 
-void CBatchTest::processPlate(CString platePath)
+void CBatchTest::processPlate(Mat& src)
 {
 	LARGE_INTEGER nFreq;
 	LARGE_INTEGER start, end;
@@ -172,29 +185,32 @@ void CBatchTest::processPlate(CString platePath)
 
 
 	std::vector<CPlate> plateVec;
-	USES_CONVERSION;
-	string tmps_srcPath(W2A(platePath));
-	cv::Mat src = imread(tmps_srcPath);
-	CPlateDetect pd;
+
 	CCharsRecognise cr;
 
 	QueryPerformanceFrequency(&nFreq);//返回每秒嘀哒声的个数,即频率
 	QueryPerformanceCounter(&start);  //获取开始时计数器的数值 
 
-	int resultPD = pd.plateDetect(src, plateVec);
+	//pd.setDetectType(PR_DETECT_CMSER);
+	int resultPD = m_batch_pd.plateDetect(src, plateVec);
 
 
 	QueryPerformanceCounter(&end);    //获取结束时计数器的数值
 	eslapsPD = (double)(end.QuadPart - start.QuadPart) / (double)nFreq.QuadPart;
+	size_t num = plateVec.size();
 
-
-	if (resultPD == 0)
-	{
-		size_t num = plateVec.size();
+	if ((resultPD == 0) && (num > 0))
+	{		
 		int index = 0;
+		std::string plateIdentify = "";
 
 		for (size_t j = 0; j < num; j++)
 		{
+			std::string tmpIdentify = "";
+
+		    CString plateIndex = _T("");
+			plateIndex.Format(_T("%d"), j);
+
 			CPlate item = plateVec.at(j);
 			Mat plateMat = item.getPlateMat();
 
@@ -211,25 +227,23 @@ void CBatchTest::processPlate(CString platePath)
 			std::string plateColor = cr.getPlateColor(color);
 
 			QueryPerformanceCounter(&end);    //获取结束时计数器的数值
-			eslapsColor = (double)(end.QuadPart - start.QuadPart) / (double)nFreq.QuadPart;
-
-
-			std::string plateIdentify = "";
+			eslapsColor = (double)(end.QuadPart - start.QuadPart) / (double)nFreq.QuadPart;		
 
 			QueryPerformanceFrequency(&nFreq);//返回每秒嘀哒声的个数,即频率
 			QueryPerformanceCounter(&start);  //获取开始时计数器的数值 
 
-			int resultCR = cr.charsRecognise(item, plateIdentify);
+			int resultCR = cr.charsRecognise(item, tmpIdentify);
 
 			QueryPerformanceCounter(&end);    //获取结束时计数器的数值
 			eslapsCR = (double)(end.QuadPart - start.QuadPart) / (double)nFreq.QuadPart;
 
-			plateIdentify = plateColor + ": " + plateIdentify;
-			m_plateResult = plateIdentify.c_str();
+			plateIdentify = plateIdentify + plateColor + ": " + tmpIdentify + "\r\n";
 
 			m_pdTime.Format(_T("%.3f"), eslapsPD*1000);
 			m_colorTime.Format(_T("%.3f"), eslapsColor*1000);
 			m_crTime.Format(_T("%.3f"), eslapsCR*1000);
 		}
+		m_plateResult = plateIdentify.c_str();
+		
 	}
 }

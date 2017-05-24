@@ -5,7 +5,7 @@ EasyPR is an open source Chinese license plate recognition system. It aims to be
 EasyPR has updated to 1.6alpha version. EasyPR_MFC update according to the 1.6alpha version of EasyPR.
 
 # EasyPR_MFC
-EasyPR comes with the demo based on win32 console, It's inconvenient to test one specified picture. So I created the EasyPR_MFC, which based on VS2013-x64 and opencv3.1. The functions of EasyPR_MFC is as follows:
+EasyPR comes with the demo based on win32 console, It's inconvenient to test one specified picture. So I created the EasyPR_MFC, which based on VS2013-x64 and opencv3.0. The functions of EasyPR_MFC is as follows:
 ## Single Test:  test one picture at a time
 * The picture to be recognized could be specified by a button;
 * The source picture and the identified result could show on the interface;

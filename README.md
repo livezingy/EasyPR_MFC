@@ -10,11 +10,11 @@ EasyPR comes with the demo based on win32 console, It's inconvenient to test one
 * The picture to be recognized could be specified by a button;
 * The source picture and the identified result could show on the interface;
 * The license plate recognition process and the middle process can be displayed in the top-left of source picture. 
-![Single Test interface](http://livezingy.qiniudn.com/201608/easyPR_MFC.png)
+![Single Test interface](https://livezingy.com/uploads/201608/easyPR_MFC.png)
 
 ## Batch Test:  test all pictures in the specified folder.
 * The folder to be recognized could be specified by a button;
 * The file name and recognise result, the time of plate detect, get plate color and char recognise could be show in a list.
-![Batch Test interface](http://livezingy.qiniudn.com/201609/opencv/CMSER_Detect.png)
+![Batch Test interface](https://livezingy.com/uploads/201609/opencv/CMSER_Detect.png)
 
 welcome to visit http://livezingy.com/batchtest-of-easypr/ for more information about EasyPR_MFC!

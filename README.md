@@ -16,5 +16,3 @@ EasyPR comes with the demo based on win32 console, It's inconvenient to test one
 * The folder to be recognized could be specified by a button;
 * The file name and recognise result, the time of plate detect, get plate color and char recognise could be show in a list.
 ![image](https://github.com/livezingy/EasyPR_MFC/blob/master/EasyPR_BatchTest.png)
-
-welcome to visit http://livezingy.com/batchtest-of-easypr/ for more information about EasyPR_MFC!
